@@ -119,19 +119,20 @@ function processProps(serviceName, serviceProperties, cb) {
 module.exports.generate = function(json, callback) {
 
   fragments = [] ;
-
-  //input validations
-
-  if (!json) {
-    return callback(new Error('json is missing'));
-  }
   let parsedJSON = '';
-  try {
-    parsedJSON = JSON.parse(json) ;
-  } catch (err) {
-    return callback(err);
+  //input validations
+  if (typeof (json)==='object'){
+    parsedJSON=json;
+  }else {
+    if (!json) {
+      return callback(new Error('json is missing'));
+    }
+    try {
+      parsedJSON = JSON.parse(json) ;
+    } catch (err) {
+      return callback(err);
+    }
   }
-
   //json processing
 
   async.forEachOf(parsedJSON, function(value, key, callback) {
