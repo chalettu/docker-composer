@@ -107,9 +107,14 @@ function processProps(serviceName, serviceProperties, cb) {
       ymlFragment = ymlFragment.concat("  cpu_shares: ").concat(serviceProperties[prop]).concat('\n') ;
     }
 
-    //cpuset
+    //Labels
+    if ("labels" === prop && serviceProperties[prop].length) {
+      ymlFragment = ymlFragment.concat("  ").concat('labels:\n') ;
 
-
+      for (let label of serviceProperties[prop]) {
+        ymlFragment = ymlFragment.concat("   -").concat(label).concat('\n') ;
+      }
+    }
 
   }
   fragments.push(ymlFragment) ;
